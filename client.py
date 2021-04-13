@@ -12,7 +12,7 @@
 
 import socket, sys, os
 
-#TCP_IP = '10.0.1.201'
+#TCP_IP = '10.40.0.1'
 #TCP_PORT = 7777
 #BUFFER_SIZE=1024
 def server_connect(image):
