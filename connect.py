@@ -9,16 +9,19 @@ import datetime
 # Or:
 def db_connect(masked,maskless):
     conn = psycopg2.connect(host="10.40.0.1", port = 5432, database="pgdb", user="pgadmin", password="csce483team4")
-    # Create a cursor object
+    
+    # Create a cursor object and current time data
+    
     day = datetime.datetime.now().strftime("%A")
     hour = datetime.datetime.now().hour
     cur = conn.cursor()
+    
+    #SQL Commands to grab current numbers
     SQL_command_maskless = "SELECT * FROM without_facemasks WHERE day = '" + day + "';"
     SQL_command_masked = "SELECT * FROM with_facemasks WHERE day = '" + day + "';"
-    # A sample query of all data from the "vendors" table in the "suppliers" database
-    #cur.execute("""SELECT column_name FROM information_schema.columns WHERE table_name ='without_facemasks';""")
-    #query_results1 = cur.fetchall()
-    #print(query_results1)
+
+
+    # Update wtihout_facemasks table
     cur.execute(SQL_command_maskless)
     query_results_maskless = cur.fetchall()
     prev_maskless = query_results_maskless[0][hour+1]
@@ -26,25 +29,20 @@ def db_connect(masked,maskless):
     SQL_command_maskless = "UPDATE without_facemasks SET hour" + str(hour) + " = " + str(maskless) + " WHERE day = '" + day + "' RETURNING *;"
     cur.execute(SQL_command_maskless)
     
-    
+    # Update wtih_facemasks table
     cur.execute(SQL_command_masked)
     SQL_command_masked = cur.fetchall()
     prev_masked = SQL_command_masked[0][hour+1]
     masked = masked + prev_masked
-    print(SQL_command_masked)
-    print(maskless)
-    print(hour)
     SQL_command_masked = "UPDATE with_facemasks SET hour" + str(hour) + " = " + str(maskless) + " WHERE day = '" + day + "' RETURNING *;"
     cur.execute(SQL_command_masked)
     
     
     conn.commit()
     query_results3 = cur.fetchall()
-    print(query_results3)
-    print (SQL_command_masked)
 
     # Close the cursor and connection to so the server can allocate
     # bandwidth to other requests
     cur.close()
     conn.close()
-db_connect(1,2)
+#db_connect(1,2)
