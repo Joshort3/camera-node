@@ -13,23 +13,35 @@ def db_connect(masked,maskless):
     day = datetime.datetime.now().strftime("%A")
     hour = datetime.datetime.now().hour
     cur = conn.cursor()
-    SQL_command = "SELECT * FROM without_facemasks WHERE day = '" + day + "';"
+    SQL_command_maskless = "SELECT * FROM without_facemasks WHERE day = '" + day + "';"
+    SQL_command_masked = "SELECT * FROM with_facemasks WHERE day = '" + day + "';"
     # A sample query of all data from the "vendors" table in the "suppliers" database
-    cur.execute("""SELECT column_name FROM information_schema.columns WHERE table_name ='without_facemasks';""")
-    query_results1 = cur.fetchall()
-    print(query_results1)
-    cur.execute(SQL_command)
-    query_results2 = cur.fetchall()
-    prev_maskless = query_results2[0][hour+1]
+    #cur.execute("""SELECT column_name FROM information_schema.columns WHERE table_name ='without_facemasks';""")
+    #query_results1 = cur.fetchall()
+    #print(query_results1)
+    cur.execute(SQL_command_maskless)
+    query_results_maskless = cur.fetchall()
+    prev_maskless = query_results_maskless[0][hour+1]
     maskless = maskless + prev_maskless
-    print(query_results2)
+    SQL_command_maskless = "UPDATE without_facemasks SET hour" + str(hour) + " = " + str(maskless) + " WHERE day = '" + day + "' RETURNING *;"
+    cur.execute(SQL_command_maskless)
+    
+    
+    cur.execute(SQL_command_masked)
+    SQL_command_masked = cur.fetchall()
+    prev_masked = SQL_command_masked[0][hour+1]
+    masked = masked + prev_masked
+    print(SQL_command_masked)
     print(maskless)
     print(hour)
-    SQL_command = "UPDATE without_facemasks SET hour" + str(hour) + " = " + str(maskless) + " WHERE day = '" + day + "' RETURNING *;"
-    cur.execute(SQL_command)
+    SQL_command_masked = "UPDATE with_facemasks SET hour" + str(hour) + " = " + str(maskless) + " WHERE day = '" + day + "' RETURNING *;"
+    cur.execute(SQL_command_masked)
+    
+    
+    conn.commit()
     query_results3 = cur.fetchall()
     print(query_results3)
-    print (SQL_command)
+    print (SQL_command_masked)
 
     # Close the cursor and connection to so the server can allocate
     # bandwidth to other requests
