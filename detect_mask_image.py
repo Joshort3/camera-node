@@ -118,6 +118,8 @@ def mask_image():
 		#cv2.imshow("Output", image)
 		#cv2.waitKey(0)
 		connect.db_connect(mask_counter_with, mask_counter_without)
+		if (maskless > 0):
+			client.server_connect('image.jpg')
 		print("Masked: ",mask_counter_with)
 		print("Maskless: ",mask_counter_without)
 		sleep(5)
