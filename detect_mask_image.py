@@ -9,6 +9,7 @@ import numpy as np
 from picamera import PiCamera
 from time import sleep
 import connect
+import client
 import argparse
 import cv2
 import os
@@ -117,8 +118,9 @@ def mask_image():
 		#cv2.imshow("Output", image)
 		#cv2.waitKey(0)
 		connect.db_connect(mask_counter_with, mask_counter_without)
-		print(mask_counter_with)
-		print("hellllllooooooooooooo: ",mask_counter_without)
+		print("Masked: ",mask_counter_with)
+		print("Maskless: ",mask_counter_without)
+		sleep(5)
 
 if __name__ == "__main__":
 	mask_image()
