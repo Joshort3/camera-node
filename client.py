@@ -16,10 +16,9 @@ import socket, sys, os
 #TCP_PORT = 7777
 #BUFFER_SIZE=1024
 def server_connect(image):
-    TCP_IP = '127.0.0.1'
-    TCP_PORT = 6666
-    BUFFER_SIZE= 1024
-
+    TCP_IP = '10.40.0.1'
+    TCP_PORT = 7777
+    BUFFER_SIZE=1024
     file = image
     with open(file, "rb") as image_file:
         MESSAGE = image_file.read()
@@ -38,4 +37,3 @@ def server_connect(image):
     print("Server Connection Finished!")
     print("received data:", data)
 
-server_connect('image.jpg')

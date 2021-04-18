@@ -39,9 +39,11 @@ def db_connect(masked,maskless):
     
     
     conn.commit()
+    query_results3 = cur.fetchall()
 
     # Close the cursor and connection to so the server can allocate
     # bandwidth to other requests
     cur.close()
     conn.close()
+    print("Database Connection Finished!!!")
 #db_connect(1,2)
