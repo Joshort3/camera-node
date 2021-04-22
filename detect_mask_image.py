@@ -14,7 +14,9 @@ import argparse
 import cv2
 import os
 import connect
+from twilio.rest import Client
 def mask_image():
+	client = Client("AC8086d3be21225aa1466eafc940d63ea1", "dc952ce63d2b9bb4e4a5c192ae2e6560")
 	# construct the argument parser and parse the arguments
 	ap = argparse.ArgumentParser()
 	ap.add_argument("-i", "--image", required=True,
@@ -120,6 +122,12 @@ def mask_image():
 		connect.db_connect(mask_counter_with, mask_counter_without)
 		if (mask_counter_without > 0):
 			client.server_connect('image.jpg')
+			message = client.messages \
+                		.create(
+					body= mask_counter_without + "detected wihout mask(s) at camera 1.",
+                     			from_='+12062079511',
+                     			to='+18324947039'
+                 		)
 		print("Masked: ",mask_counter_with)
 		print("Maskless: ",mask_counter_without)
 		sleep(5)
