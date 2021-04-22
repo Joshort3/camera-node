@@ -14,6 +14,11 @@ def db_connect(masked,maskless):
     
     day = datetime.datetime.now().strftime("%A")
     hour = datetime.datetime.now().hour
+    if (hour == 0):
+        hour = 23
+    else:
+        hour = hour - 1 
+    print(hour)
     cur = conn.cursor()
     
     #SQL Commands to grab current numbers
@@ -46,4 +51,4 @@ def db_connect(masked,maskless):
     cur.close()
     conn.close()
     print("Database Connection Finished!!!")
-#db_connect(1,2)
+db_connect(1,2)
