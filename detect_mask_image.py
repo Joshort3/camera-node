@@ -124,7 +124,7 @@ def mask_image():
 			client.server_connect('image.jpg')
 			message = client.messages \
                 		.create(
-					body= mask_counter_without + "detected wihout mask(s) at camera 1.",
+					body= str(mask_counter_without) + "detected wihout mask(s) at camera 1.",
                      			from_='+12062079511',
                      			to='+18324947039'
                  		)
